@@ -1,68 +1,45 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Тестовое задание
 
-## Available Scripts
+**Описание задание**
+Необходимо реализовать приложение "каталог изображений". Приложение состоит из 1 страницы на которой находятся следующие элементы:
 
-In the project directory, you can run:
+- Текстовое поле ввода тега
+- Кнопка "Загрузить"
+- Кнопка "Очистить"
+- Кнопка "Группировать" / "Разгруппировать"
+- Список изображений
 
-### `npm start`
+**Доступные действия пользователя**
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. Заполнение поля тега
+2. Нажатие на кнопку "Загрузить". Если поле ввода тега пустое - отображается всплывающее уведомление "заполните поле 'тег'",
+   иначе происходит http запрос к api giphy (описание api ниже), на время загрузки кнопка блокируется, а текст меняется на "Загрузка...".
+   Затем происходит одно из следующего:
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- Если по тегу ничего не найдено — отображается всплывающее уведомление 'По тегу ничего не найдено'",
+- Если произошла http ошибка — отображается всплывающее уведомление 'Произошла http ошибки'"
+- При успешном получении данных изображения — добавляется изображение в список изображений
+- При нажатии на кнопку "Очистить" — поле ввода тега и список изображений очищается
+- При нажатии на кнопку "Группировать" — изображения группируются по тегу, тег пишется как заголовок над группой. Текст кнопки меняется на "Разгруппировать"
+- При нажатии на кнопку "Разгруппировать" — изображения отображаются друг за другом по очерёдности загрузки. Текст кнопки меняется на "Группировать"
+- При нажатии на изображение поле ввода тега заполняется тегом, по которому искалось изображение
+  Начальное состояние приложения: Поле ввода тега пустое, список изображений пуст, группировка не применена
 
-### `npm test`
+**Api giphy**
+Запрос на получение изображения - GET https://api.giphy.com/v1/gifs/random?api_key=${API_KEY}C&tag=${TAG}
+Пример: https://api.giphy.com/v1/gifs/random?api_key=gTJAO48YcpmrADUyo4opy4ES4g7iDBxx&tag=cat
+В теле ответа возвращается JSON с полем image_url, который следует дальше использовать для отображения (из json ответа ниже удалены прочие поля).
+Возможет дубликат image_url т.к. происходит запрос на случайное изображение, как-либо специально обрабатывать этот случай не надо.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+`{ "data":{ "image_url":"https://media3.giphy.com/media/gkncW2jPvchwc/giphy.gif" } }`
 
-### `npm run build`
+При запросе тега, по которому нет изображений в поле data вернется пустой массив т.е:
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+`{"data":[]}`
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+**Требования к библиотекам**
+Приложение должно быть написано на JSX или Typescript с использованием React или Angular, требований и ограничений по прочим библиотекам нет.
+При вводе npm start в корне репозитория должен запускаться dev сервер.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Критерии оценки
+Задание оценивается по двум критериям - законченность и качество кода. По верстке требуется минимальное оформление на своё усмотрение.
