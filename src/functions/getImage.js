@@ -8,7 +8,10 @@ async function getImage(label){
     if(info.data.length === 0){
         throw new Error('По тегу ничего не найдено');
     } else {
-        return info.data.embed_url;
+        return ({
+            id: info.data.import_datetime,
+            url: info.data.embed_url
+        });
     }
 }
 
